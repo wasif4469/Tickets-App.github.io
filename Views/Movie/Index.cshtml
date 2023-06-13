@@ -1,0 +1,129 @@
+﻿
+
+@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "List of Movies";
+}
+
+<style>
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        transition: all 0.5s;
+    }
+    
+    .card-header:hover {
+        background-color: #0056b3;
+    }
+    
+    .card-body {
+        transition: all 0.5s;
+    }
+    
+    .card-body:hover {
+        background-color: #f8f9fa;
+        color: #343a40;
+    }
+    
+    .card-footer {
+        background-color: #f8f9fa;
+        transition: all 0.5s;
+    }
+    
+    .card-footer:hover {
+        background-color: #e9ecef;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        transition: all 0.5s;
+    }
+    
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #218838;
+    }
+    
+    .badge {
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+    
+    .badge-success {
+        background-color: #28a745;
+    }
+    
+    .badge-danger {
+        background-color: #dc3545;
+    }
+    
+    .badge-primary {
+        background-color: #007bff;
+    }
+</style>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.MovieName
+                                    <a class="text-white float-right"><i class="bi bi-pencil-square"></i></a>
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.ImageURL" width="100%" alt="@item.MovieName">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">@item.Description</p>
+                            <p class="card-text"><b>Cinema: </b>@item.Cenima.CenimaName</p>
+                            <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
+                            <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
+                            <p class="card-text ">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <span class="badge badge-success text-white">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > @item.EndDate)
+                                {
+                                    <span class="badge badge-danger text-white">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right"><i class="bi bi-eye-fill"></i> Show Details</a>
+                                <a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
